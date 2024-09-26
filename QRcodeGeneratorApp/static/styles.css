@@ -1,0 +1,128 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 5px;
+}
+
+.container {
+    max-width: 600px;
+    margin: 5px auto;
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    margin: 0 auto 25px auto;
+}
+
+.flex-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.flex-item {
+    flex: 1; /* This will ensure all items take equal space */
+    margin-right: 10px; /* Space between items */
+}
+
+.flex-item:last-child {
+    margin-right: 0; /* Remove margin for the last item */
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    margin-right: 10px; /* Space between label and input */
+}
+
+.label-size {
+    width: 100px;
+}
+
+input[type="text"],
+select {
+    flex: 1; /* Allow the input/select to grow */
+    width: 100%; /* Full width to take the available space */
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.image-container {
+    display: flex;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.image-frame {
+    width: 220px;  /* Fixed width for the image frame */
+    height: 220px; /* Fixed height for the image frame */
+    border: 5px solid #ddd;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; /* Prevents overflow of image */
+    margin: 20px;
+}
+
+.image-frame img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover; /* Ensure the image covers the square area */
+
+}
+
+.color-row {
+    display: flex;
+    flex-direction: column; /* Stack color inputs vertically */
+    margin: 15px auto; /* Space between image and color inputs */
+}
+
+.color-row div {
+    align-items: end;
+}
+
+.color-row label {
+    margin: 0 auto;
+}
+
+.color-row input[type="color"] {
+    margin-left: 10px;
+    height: 36px; /* Fixed height for color inputs */
+    width: 36px;
+    padding: 0; /* Remove padding for square shape */
+    border: none; /* Remove border */
+    border-radius: 0; /* Ensure corners are square */
+}
+
+.color-section {
+    display: flex;
+    flex-direction: row;
+    margin: auto;
+}
+
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #5cb85c;
+    border: none;
+    color: white;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #4cae4c;
+}
+/* Hide the text fields but keep them in the DOM */
+.hidden {
+    display: none;
+}
