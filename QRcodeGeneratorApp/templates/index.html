@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR CODE GENERATOR</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>QR CODE GENERATOR</h1>
+        <form id="userForm">
+            <div class="flex-row">
+                <div class="flex-item">
+                    <label for="logo">Logo for QR Code:</label>
+                    <select id="logo" name="logo" >
+                        <option value="">Select Logo</option>
+                        <option value="facebook">Facebook</option>
+                        <option value="instagram">Instagram</option>
+                        <option value="none">None</option>
+                        <option value="custom">Choose from device</option>
+                    </select>
+                </div>
+
+                <div class="flex-item">
+                    <label for="style">Style:</label>
+                    <select id="style" name="style" >
+                        <option value="default">Default</option>
+                        <option value="circle">Circle</option>
+                        <option value="gapped">Gapped</option>
+                        <option value="square">Square</option>
+                        <option value="vertical">Vertical</option>
+                        <option value="horizontal">Horizontal</option>
+                    </select>
+                </div>
+
+                <div class="flex-item">
+                    <label for="size">Logo Size:</label>
+                    <select id="size" name="size" >
+                        <option value="default">Default</option>
+                        <option value="big">Big</option>
+                        <option value="medium">Medium</option>
+                        <option value="small">Small</option>
+                    </select>
+                </div>
+
+            </div>
+            <div class="flex-row" id="fileUploadRow" style="display: none;">
+                <label for="logoFile">Upload Logo from Device:</label>
+                <input type="file" id="logoFile" name="logoFile" accept="image/*">
+            </div>
+            <!-- Link Label and Input in One Row -->
+            <div class="flex-row">
+                <label class="label-size" for="link">Link:</label>
+                <input type="text" id="link" name="link" required>
+            </div>
+
+
+            <!-- Choose Color Label and Select in One Row -->
+            <div class="flex-row">
+                <label for="color">Choose Color:</label>
+                <select id="color" name="color" >
+                    <option value="none">No Color</option>
+                    <option value="custom">Custom Color</option>
+                    <option value="default">Default Color</option>
+                </select>
+            </div>
+
+            <!-- Frame for displaying the image -->
+            <div class="image-container">
+                <div class="image-frame">
+                    <img src="./static/logos/pomarina.png" alt="QR Code" id="qrCodeImage" >
+                </div>
+
+                <!-- Color Inputs on the right side of the image -->
+                <div class="color-row">
+                    <label for="cc">Center Color:</label>
+                    <div class="color-section">
+{#                        <input class="hidden" type="text" id="cc" name="cc" placeholder="Enter color..." oninput="updateColorSquare('cc', this.value)">#}
+                        <input type="color" class="color-square"  id="ccColor" name="ccColor"
+{#                               onchange="updateTextField('cc', this.value)"#}
+                                disabled=disabled"
+                        >
+                    </div>
+
+                    <label for="ec">Edge Color:</label>
+                    <div class="color-section">
+{#                        <input class="hidden" type="text" id="ec" name="ec" placeholder="Enter color..." oninput="updateColorSquare('ec', this.value)">#}
+                        <input type="color" id="ecColor" class="color-square"  name="ecColor"
+{#                               onchange="updateTextField('ec', this.value)"#}
+                                disabled="disabled"
+                        >
+                    </div>
+
+                    <label for="bc">Back Color:</label>
+                    <div class="color-section">
+{#                        <input class="hidden" type="text" id="bc" name="bc" value="#ffffff" placeholder="Enter color..." oninput="updateColorSquare('bc', this.value)">#}
+                        <input type="color" class="color-square" id="bcColor" name="bcColor" value="#ffffff"
+{#                               onchange="updateTextField('bc', this.value)"#}
+                                disabled="disabled"
+                        >
+                    </div>
+                    <!-- Add Save QR Code button -->
+
+                </div>
+            </div>
+            <button id="saveQRCodeButton">Save QR Code</button>
+{#            <button type="submit" id="submitButton">Generate</button>#}
+        </form>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
