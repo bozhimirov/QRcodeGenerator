@@ -1,0 +1,93 @@
+# app.py
+
+import os
+
+import pyshorteners as pyshorteners
+from flask import Flask, jsonify, request, render_template
+from io import BytesIO
+import base64
+from class_qr_code_with_image import QRCodeGenerator
+from constants import LOGO_PATHS
+# from validators import validate_url
+from helpers import shorten_link
+
+app = Flask(__name__)
+
+
+# Define your logo upload folder here
+app.config['LOGOS'] = 'static/logos'  # Ensure this directory exists
+
+
+@app.route('/', methods=['POST', 'GET'])
+def manage():
+    if request.method == 'POST':
+        logo_path = None
+
+        # Retrieve form data
+        logo = request.form.get('logo')
+        link = request.form.get('link')
+        style = request.form.get('style')
+        size = request.form.get('size')
+        cc = request.form.get('cc')
+        ec = request.form.get('ec')
+        bc = request.form.get('bc')
+
+        link = shorten_link(link)
+
+        # Handle custom logo upload
+        if logo == 'custom' and 'logoFile' in request.files:
+            logo_file = request.files['logoFile']
+            if logo_file and logo_file.filename:
+                logo_path = logo_file
+        else:
+            if logo not in LOGO_PATHS.keys():
+                logo = 'pomarina'
+            logo_path = LOGO_PATHS[logo]
+
+
+        # Initialize the QR code generator
+        qr_generator = QRCodeGenerator(
+            logo=logo_path, style=style, size=size, link=link, cc=cc, ec=ec, bc=bc
+        )
+
+        # Generate QR code image
+        if link:
+            qr_generator.add_data()
+        qr_generator.make_image()
+
+        if logo != 'none':
+            qr_generator.add_logo()
+
+        # Convert image to base64 for embedding in HTML
+        img_io = BytesIO()
+        qr_generator.qr_image.save(img_io, 'PNG')
+        img_io.seek(0)
+        img_base64 = base64.b64encode(img_io.getvalue()).decode('utf-8')
+
+        return jsonify({'qr_code_image': img_base64})
+
+    return render_template('index.html')
+
+
+@app.route('/upload_logo', methods=['POST'])
+def upload_logo():
+    if 'logoFile' not in request.files:
+        return "No file part", 400
+
+    logo_file = request.files['logoFile']
+    if logo_file.filename == '':
+        return "No selected file", 400
+
+    # Ensure the logos directory exists
+    if not os.path.exists(app.config['LOGOS']):
+        os.makedirs(app.config['LOGOS'])
+
+    # Save the file
+    logo_filename = os.path.join(app.config['LOGOS'], logo_file.filename)
+    logo_file.save(logo_filename)
+
+    return jsonify({'message': 'Logo uploaded successfully'}), 200
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
