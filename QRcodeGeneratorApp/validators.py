@@ -1,9 +1,14 @@
-# validators.py
+# -- validate if the color is in hex format (regex is used ) --
+def validate_hex(hex_color: str) -> bool:
+    """
+    This function validates if the color is in hex format.
 
-import re
+    Parameters:
+        hex_color (str): the color that have to be checked.
 
-
-def validate_hex(hex_color):
+    Return:
+        bool: Return if the color is in hex format.
+    """
     import re
     if hex_color is None:
         return False  # or raise an error
@@ -12,41 +17,48 @@ def validate_hex(hex_color):
     return bool(_hex_string.match(hex_color))
 
 
-def hex_to_rgb(color):
-    value = color.lstrip('#')
-    lv = len(value)
-    return tuple(int(value[i:i + lv // 3], 16) for i in range(0, lv, lv // 3))
-
-
-def validate_rgb(rgb_color: str) -> bool:
-    """Check if the RGB values are in the correct range."""
-    return all(0 <= int(x) <= 255 for x in rgb_color.split(','))
-
-
+# -- validate if the style is in predefined values --
 def validate_style(style: str, styles: dict) -> bool:
+    """
+    This function validates if the style is in the predefined values of a provided dictionary.
+
+    Parameters:
+        style (str): the style that have to be checked.
+        styles (dict): the dictionary used for checking.
+
+    Return:
+        bool: Return if the style is in the predefined values of a provided dictionary.
+    """
     return style in styles.keys()
 
 
+# -- validate if the size is in predefined values --
 def validate_size(size: str, sizes: dict) -> bool:
+    """
+    This function validates if the size is in the predefined values of a provided dictionary.
+
+    Parameters:
+        size (str): the size that have to be checked.
+        sizes (dict): the dictionary used for checking.
+
+    Return:
+        bool: Return if the size is in the predefined values of a provided dictionary.
+    """
     return size in sizes.keys()
 
 
+# -- validate the len of the name and remove unwanted symbols --
 def validate_name(name: str) -> str:
+    """
+    This function validates the len of the name and remove unwanted symbols.
+
+    Parameters:
+        name (str): the name that have to be checked and changed if needed.
+
+    Return:
+        str: return the name(corrected if needed),
+         if the name length is not in the provided values, returns an empty string
+    """
     if 0 < len(name) < 100:
         return name.replace(' ', '', -1).replace('.', '', -1)
     return ''
-
-
-# def validate_url(string: str) -> bool:
-#     import re
-#     _url_string = re.compile(
-#         r'(^https?://)?'  # http:// or https://
-#         r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.+)'
-#         r'([A-Z]{2,6}\.?|)'  # domain...
-#         r'localhost|'  # localhost...
-#         r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'  # ...or ip
-#         r'(?::\d+)?'  # optional port
-#         r'(?:/?|[/?]\S+)$', re.IGNORECASE)
-#     # return url is not None and regex.search(url)
-#     # _url_string = re.compile(r'^#?([a-fA-F0-9]{3}|[a-fA-F0-9]{6})$')
-#     return bool(_url_string.match(string))
