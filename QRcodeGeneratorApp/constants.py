@@ -1,4 +1,3 @@
-# constants.py
 
 from qrcode.image.styles.moduledrawers import RoundedModuleDrawer, CircleModuleDrawer, GappedSquareModuleDrawer, \
     SquareModuleDrawer, VerticalBarsDrawer, HorizontalBarsDrawer
@@ -20,10 +19,10 @@ HEX_COLORS = {
 
 # Data for different logos
 DATAS = {
-    'facebook': 'www.facebook.com/profile.php?id=100087327551813',
-    'instagram': 'www.instagram.com/scouts.kreslivorel',
-    'custom': 'www.instagram.com/scouts.kreslivorel',
-    'none': 'www.instagram.com/scouts.kreslivorel'
+    'facebook': 'fb.com/100087327551813',
+    'instagram': 'instagram.com/scouts.kreslivorel',
+    'custom': 'instagram.com/scouts.kreslivorel',
+    'none': 'instagram.com/scouts.kreslivorel'
 }
 
 # Styles for QR codes
