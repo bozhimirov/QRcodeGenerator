@@ -1,3 +1,6 @@
+from PIL.Image import Image
+
+
 # -- convert hex color to rgb color --
 def hex_to_rgb(color: str) -> tuple:
     """
@@ -27,7 +30,7 @@ def shorten_link(data: str) -> str:
         str: Return the data with the same or shorter length.
     """
     import re
-    replaced = re.sub(r"(?:https?:\/\/)?(?:www\.|mobile\.|touch\.|mbasic\.)", '', data, flags=re.IGNORECASE)
+    replaced = re.sub(r"(?:https?://)?(?:www\.|mobile\.|touch\.|mbasic\.)", '', data, flags=re.IGNORECASE)
     shorten = reformat_facebook_link(replaced)
     return shorten
 
@@ -51,3 +54,39 @@ def reformat_facebook_link(data: str) -> str:
         if matchResult:
             return f'fb.com/{matchResult.group()}'
     return data
+
+
+# -- convert logo image into RGBA mode if needed--
+def convert_logo(logo_image: Image) -> Image:
+    """
+    This function converts logo image into RGBA mode if needed.
+
+    Parameters:
+        logo_image (Image): logo image that may need to be converted
+
+    Return:
+        Image: Return the logo image in RGBA mode
+    """
+    if logo_image.mode != 'RGBA':
+        return logo_image.convert('RGBA')
+    return logo_image.convert('RGBA')
+
+
+# -- calculate logo position according to image size--
+def calculate_logo_position(image: Image, logo: Image) -> tuple:
+    """
+    This function calculate logo position according to image size.
+
+    Parameters:
+        image (Image): image where the logo will be centered
+        logo (Image): logo image used for calculation
+
+    Return:
+        tuple: Return the position for the logo according to the size of the image as a tuple
+    """
+    qr_width, qr_height = image.size
+    logo_width, logo_height = logo.size
+    return (
+        (qr_width - logo_width) // 2,
+        (qr_height - logo_height) // 2
+    )
