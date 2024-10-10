@@ -7,47 +7,57 @@ body {
 
 .container {
     max-width: 600px;
-    margin: 5px auto;
+    margin: auto;
     background: white;
     padding: 15px;
     border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 10px #5e3394;
 }
 
 h1 {
     text-align: center;
     margin: 0 auto 25px auto;
+    color: #5e3394;
 }
 
 .flex-row {
     display: flex;
     align-items: center;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
 .flex-item {
-    flex: 1; /* This will ensure all items take equal space */
-    margin-right: 10px; /* Space between items */
+    flex: 1;
+    margin-right: 10px;
 }
 
 .flex-item:last-child {
-    margin-right: 0; /* Remove margin for the last item */
+    margin-right: 0;
 }
 
 label {
     display: block;
     margin-bottom: 5px;
-    margin-right: 10px; /* Space between label and input */
+    margin-right: 10px;
 }
 
-.label-size {
-    width: 100px;
+.label-link {
+    width: 40px;
 }
 
 input[type="text"],
 select {
-    flex: 1; /* Allow the input/select to grow */
-    width: 100%; /* Full width to take the available space */
+    flex: 1;
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+input[type="text"]:last-child,
+select {
+    flex: 1;
+    width: 100%;
     padding: 8px;
     border: 1px solid #ddd;
     border-radius: 4px;
@@ -60,52 +70,58 @@ select {
 }
 
 .image-frame {
-    width: 220px;  /* Fixed width for the image frame */
-    height: 220px; /* Fixed height for the image frame */
-    border: 5px solid #ddd;
+    width: 260px;
+    height: 260px;
+    /*border: 5px solid #5e3394;*/
     border-radius: 4px;
+    box-shadow: 0 1px 15px #5e3394;
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden; /* Prevents overflow of image */
-    margin: 20px;
+    overflow: hidden;
+    margin: 10px;
 }
 
 .image-frame img {
     max-width: 100%;
     max-height: 100%;
-    object-fit: cover; /* Ensure the image covers the square area */
+    object-fit: cover;
 
 }
+
 
 .color-row {
     display: flex;
-    flex-direction: column; /* Stack color inputs vertically */
-    margin: 15px auto; /* Space between image and color inputs */
+    flex-direction: column;
+    margin: 0 auto;
+    align-items: center;
+    width: 310px;
 }
-
-.color-row div {
-    align-items: end;
-}
+/*.color-row div {*/
+/*    align-items: center;*/
+/*}*/
 
 .color-row label {
-    margin: 0 auto;
+    margin: 10px auto 15px auto;
 }
 
+
 .color-row input[type="color"] {
-    margin-left: 10px;
+    /*margin-left: 10px;*/
     height: 36px; /* Fixed height for color inputs */
     width: 36px;
-    padding: 0; /* Remove padding for square shape */
-    border: none; /* Remove border */
-    border-radius: 0; /* Ensure corners are square */
+    padding: 0;
+    border: none;
+    border-radius: 0;
 }
 
 .color-section {
     display: flex;
-    flex-direction: row;
-    margin: auto;
+    flex-direction: column;
+    margin: auto 26px;
+    align-items: center;
 }
+
 
 
 button {
@@ -117,6 +133,7 @@ button {
     font-size: 16px;
     border-radius: 4px;
     cursor: pointer;
+    margin: auto;
 }
 
 button:hover {
@@ -125,4 +142,19 @@ button:hover {
 /* Hide the text fields but keep them in the DOM */
 .hidden {
     display: none;
+}
+.color_square {
+    padding: 0;
+    border: none;
+}
+
+#fileUploadRow {
+    margin-bottom: 4px;
+}
+
+.inner-colors {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 18px;
+
 }
