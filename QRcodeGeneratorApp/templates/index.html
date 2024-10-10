@@ -52,20 +52,12 @@
             </div>
             <!-- Link Label and Input in One Row -->
             <div class="flex-row">
-                <label class="label-size" for="link">Link:</label>
+                <label class="label-link" for="link">Link:</label>
                 <input type="text" id="link" name="link" required>
             </div>
 
 
-            <!-- Choose Color Label and Select in One Row -->
-            <div class="flex-row">
-                <label for="color">Choose Color:</label>
-                <select id="color" name="color" >
-                    <option value="none">No Color</option>
-                    <option value="custom">Custom Color</option>
-                    <option value="default">Default Color</option>
-                </select>
-            </div>
+
 
             <!-- Frame for displaying the image -->
             <div class="image-container">
@@ -75,38 +67,49 @@
 
                 <!-- Color Inputs on the right side of the image -->
                 <div class="color-row">
-                    <label for="cc">Center Color:</label>
-                    <div class="color-section">
-{#                        <input class="hidden" type="text" id="cc" name="cc" placeholder="Enter color..." oninput="updateColorSquare('cc', this.value)">#}
-                        <input type="color" class="color-square"  id="ccColor" name="ccColor"
-{#                               onchange="updateTextField('cc', this.value)"#}
-                                disabled=disabled"
-                        >
+                    <!-- Choose Color Label and Select in One Row -->
+                    <div class="color-row">
+                        <label for="color">Choose Color:</label>
+                        <select id="color" name="color" >
+                            <option value="none">No Color</option>
+                            <option value="custom">Custom Color</option>
+                            <option value="default">Default Color</option>
+                        </select>
                     </div>
+                    <label for="colors">Colors</label>
+                    <div class="inner-colors">
+                        <div class="color-section">
+                            <label for="cc">center</label>
+    {#                        <input class="hidden" type="text" id="cc" name="cc" placeholder="Enter color..." oninput="updateColorSquare('cc', this.value)">#}
+                            <input type="color" class="color-square"  id="ccColor" name="ccColor"
+    {#                               onchange="updateTextField('cc', this.value)"#}
+                                    disabled=disabled"
+                            >
+                        </div>
 
-                    <label for="ec">Edge Color:</label>
-                    <div class="color-section">
-{#                        <input class="hidden" type="text" id="ec" name="ec" placeholder="Enter color..." oninput="updateColorSquare('ec', this.value)">#}
-                        <input type="color" id="ecColor" class="color-square"  name="ecColor"
-{#                               onchange="updateTextField('ec', this.value)"#}
-                                disabled="disabled"
-                        >
+                        <div class="color-section">
+                            <label for="ec">edge</label>
+    {#                        <input class="hidden" type="text" id="ec" name="ec" placeholder="Enter color..." oninput="updateColorSquare('ec', this.value)">#}
+                            <input type="color" id="ecColor" class="color-square"  name="ecColor"
+    {#                               onchange="updateTextField('ec', this.value)"#}
+                                    disabled="disabled"
+                            >
+                        </div>
+
+                        <div class="color-section">
+                            <label for="bc">back</label>
+    {#                        <input class="hidden" type="text" id="bc" name="bc" value="#ffffff" placeholder="Enter color..." oninput="updateColorSquare('bc', this.value)">#}
+                            <input type="color" class="color-square" id="bcColor" name="bcColor" value="#ffffff"
+    {#                               onchange="updateTextField('bc', this.value)"#}
+                                    disabled="disabled"
+                            >
+                        </div>
+
                     </div>
-
-                    <label for="bc">Back Color:</label>
-                    <div class="color-section">
-{#                        <input class="hidden" type="text" id="bc" name="bc" value="#ffffff" placeholder="Enter color..." oninput="updateColorSquare('bc', this.value)">#}
-                        <input type="color" class="color-square" id="bcColor" name="bcColor" value="#ffffff"
-{#                               onchange="updateTextField('bc', this.value)"#}
-                                disabled="disabled"
-                        >
-                    </div>
-                    <!-- Add Save QR Code button -->
-
+                    <button id="saveQRCodeButton">Save QR Code</button>
                 </div>
             </div>
-            <button id="saveQRCodeButton">Save QR Code</button>
-{#            <button type="submit" id="submitButton">Generate</button>#}
+
         </form>
     </div>
 
