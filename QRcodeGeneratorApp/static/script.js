@@ -88,12 +88,22 @@ function enableSaveButton() {
     bcColor.disabled = false
 }
 
+function checkColorInputs() {
+    const colorChoice = document.getElementById('color').value;
+    if (colorChoice === 'custom') {
+        enableColorInputs(); // Enable color inputs for custom colors
+    } else {
+        disableColorInputs(); // Disable color inputs for non-custom colors
+        // console.log('done')
+    }
+}
+
 // Event listener for logo selection
 document.getElementById('logo').addEventListener('change', function () {
     const logo = this.value;
     const fileUploadRow = document.getElementById('fileUploadRow');
-    const colorDropdown = document.getElementById('color');
     const defaultOption = document.querySelector("#color option[value='default']");
+    const colorDropdown = document.getElementById('color');
 
     // Toggle file input visibility for custom logo
     fileUploadRow.style.display = (logo === 'custom') ? 'flex' : 'none';
@@ -103,6 +113,7 @@ document.getElementById('logo').addEventListener('change', function () {
         if (defaultOption) {
             defaultOption.style.display = 'none';
             colorDropdown.selectedIndex = 0; // Set to a different option (like "No Color")
+
         }
     } else {
         if (defaultOption) {
@@ -111,15 +122,19 @@ document.getElementById('logo').addEventListener('change', function () {
         }
     }
 
-    const colorChoice = document.getElementById('color').value;
-    if (colorChoice === 'custom') {
-        enableColorInputs(); // Enable color inputs for custom colors
-    } else {
-        disableColorInputs(); // Disable color inputs for non-custom colors
-    }
+    // const colorChoice = document.getElementById('color').value;
 
     // Update color inputs based on selected logo
-    updateColorInputs(logo);
+    updateColorInputs(logo)
+    // if (colorChoice === 'custom') {
+    //     enableColorInputs(); // Enable color inputs for custom colors
+    // } else {
+    //     disableColorInputs(); // Disable color inputs for non-custom colors
+    //     console.log('done')
+    // }
+
+
+
 });
 
 // Function to update color inputs based on selected logo
@@ -127,17 +142,21 @@ function updateColorInputs(logo) {
     const ccColorInput = document.getElementById('ccColor');
     const ecColorInput = document.getElementById('ecColor');
     const bcColorInput = document.getElementById('bcColor');
+    const colorChoice = document.getElementById('color').value;
 
     // Set default colors based on selected logo
     let colors = defaultColors.default; // Default colors
-
     if (logo in defaultColors) {
         colors = defaultColors[logo]; // Get colors for the selected logo
+        }
+    if (colorChoice === 'none') {
+        colors = defaultColors.default; // Default colors
     }
 
     ccColorInput.value = colors.cc; // Update center color
     ecColorInput.value = colors.ec; // Update edge color
     bcColorInput.value = colors.bc; // Update back color
+    checkColorInputs()
 }
 
 // Function to toggle submit button state
@@ -172,42 +191,47 @@ function displayQRCode(item) {
         link.click(); // Programmatically click the link to trigger the download
     };
 }
-
-// Default back color initialization
-document.getElementById('bcColor').value = '#ffffff';
+//
+// // Default back color initialization
+// document.getElementById('bcColor').value = '#ffffff';
 
 // Add an event listener to the color selection dropdown
 document.getElementById('color').addEventListener('change', function () {
-    const colorChoice = this.value;
+    // const colorChoice = this.value;
+    // console.log(colorChoice)
     const logo = document.getElementById('logo').value;
-    let ccColorInput = document.getElementById('ccColor');
-    let ecColorInput = document.getElementById('ecColor');
-    let bcColorInput = document.getElementById('bcColor');
+    // let ccColorInput = document.getElementById('ccColor');
+    // let ecColorInput = document.getElementById('ecColor');
+    // let bcColorInput = document.getElementById('bcColor');
 
-    if (colorChoice === 'none') {
-        // Reset colors when "No Color" is selected
-        ccColorInput.value = '#000000'; // Default center color
-        ecColorInput.value = '#000000'; // Default edge color
-        bcColorInput.value = '#ffffff'; // Default back color
-        disableColorInputs(); // Disable color inputs
-    } else if (colorChoice === 'custom') {
-        // Enable color inputs for custom color selection
-        enableColorInputs(); // Enable color inputs
-    } else {
-        // Restore default colors based on the selected logo if "Default Color" is selected
-        if (logo in defaultColors) {
-            const selectedColors = defaultColors[logo];
-            ccColorInput.value = selectedColors.cc;
-            ecColorInput.value = selectedColors.ec;
-            bcColorInput.value = selectedColors.bc;
-        } else {
-            // Fallback to default colors if logo is not in defaultColors
-            ccColorInput.value = defaultColors.default.cc;
-            ecColorInput.value = defaultColors.default.ec;
-            bcColorInput.value = defaultColors.default.bc;
-        }
-        disableColorInputs(); // Disable color inputs for default colors
-    }
+    // if (colorChoice === 'none') {
+    //     // Reset colors when "No Color" is selected
+    //     ccColorInput.value = '#000000'; // Default center color
+    //     ecColorInput.value = '#000000'; // Default edge color
+    //     bcColorInput.value = '#ffffff'; // Default back color
+    //     disableColorInputs(); // Disable color inputs
+    //     // console.log('disabled')
+    // } else if (colorChoice === 'custom') {
+    //     // Enable color inputs for custom color selection
+    //     enableColorInputs(); // Enable color inputs
+    //     // console.log('enabled')
+    // } else {
+    //     // Restore default colors based on the selected logo if "Default Color" is selected
+    //     if (logo in defaultColors) {
+    //         const selectedColors = defaultColors[logo];
+    //         ccColorInput.value = selectedColors.cc;
+    //         ecColorInput.value = selectedColors.ec;
+    //         bcColorInput.value = selectedColors.bc;
+    //     } else {
+    //         // Fallback to default colors if logo is not in defaultColors
+    //         ccColorInput.value = defaultColors.default.cc;
+    //         ecColorInput.value = defaultColors.default.ec;
+    //         bcColorInput.value = defaultColors.default.bc;
+    //     }
+    //     disableColorInputs(); // Disable color inputs for default colors
+    //     // console.log('disabled')
+    // }
+    updateColorInputs(logo)
 });
 
 // Listen for the form submission event
@@ -258,6 +282,7 @@ document.getElementById('userForm').addEventListener('change', async function (e
         if (response.ok) {
             const result = await response.json();
             displayQRCode(result); // Display QR code
+            checkColorInputs()
         } else {
             const errorMessage = await response.text();
             console.error('Error:', response.statusText, errorMessage);
