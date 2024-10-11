@@ -113,6 +113,7 @@ select {
     padding: 0;
     border: none;
     border-radius: 0;
+    background-color: white;
 }
 
 .color-section {
@@ -143,10 +144,7 @@ button:hover {
 .hidden {
     display: none;
 }
-.color_square {
-    padding: 0;
-    border: none;
-}
+
 
 #fileUploadRow {
     margin-bottom: 4px;
