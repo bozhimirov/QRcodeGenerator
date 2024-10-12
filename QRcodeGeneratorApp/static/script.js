@@ -1,4 +1,4 @@
-// Store the default colors for logos
+// Constant that store the default colors for logos
 const defaultColors = {
     facebook: {
         cc: '#000000', // Center Color
@@ -19,133 +19,93 @@ const defaultColors = {
 
 // Function to enable color input fields
 function enableColorInputs() {
-    document.getElementById('ccColor').disabled = false; // Enable Center Color
-    document.getElementById('ecColor').disabled = false; // Enable Edge Color
-    document.getElementById('bcColor').disabled = false; // Enable Back Color
+    document.getElementById('ccColor').disabled = false; // Enable Center Color element
+    document.getElementById('ecColor').disabled = false; // Enable Edge Color element
+    document.getElementById('bcColor').disabled = false; // Enable Back Color element
 }
 
 // Function to disable color input fields
 function disableColorInputs() {
-    document.getElementById('ccColor').disabled = true; // Disable Center Color
-    document.getElementById('ecColor').disabled = true; // Disable Edge Color
-    document.getElementById('bcColor').disabled = true; // Disable Back Color
+    document.getElementById('ccColor').disabled = true; // Disable Center Color element
+    document.getElementById('ecColor').disabled = true; // Disable Edge Color element
+    document.getElementById('bcColor').disabled = true; // Disable Back Color element
 }
 
 // Function to disable the save button while generating the QR code
 function disableSaveButton() {
-    const saveButton = document.getElementById('saveQRCodeButton');
-    const logo = document.getElementById('logo');
-    const style = document.getElementById('style');
-    const size = document.getElementById('size');
-    const link = document.getElementById('link');
-    const color = document.getElementById('color');
-    const ccColor = document.getElementById('ccColor');
-    const ecColor = document.getElementById('ecColor');
-    const bcColor = document.getElementById('bcColor');
+    const saveButton = document.getElementById('saveQRCodeButton'); //Save Button element
+    const logo = document.getElementById('logo'); // Chosen Logo element
+    const style = document.getElementById('style'); // Chosen Style element
+    const size = document.getElementById('size'); // Chosen Size element
+    const link = document.getElementById('link'); // Input link data element
+    const color = document.getElementById('color'); // Chosen Color element
+    const ccColor = document.getElementById('ccColor'); // Center Color element
+    const ecColor = document.getElementById('ecColor'); // Edge Color element
+    const bcColor = document.getElementById('bcColor'); // Back Color element
     saveButton.disabled = true; // Disable the save button
     saveButton.style.backgroundColor = '#ccc'; // Change the background color to gray
     saveButton.style.cursor = 'not-allowed'; // Change cursor to indicate it's disabled
-    logo.disabled = true
-    style.disabled = true
-    size.disabled = true
-    link.disabled = true
-    color.disabled = true
-    ccColor.disabled = true
-    ecColor.disabled = true
-    bcColor.disabled = true
+    logo.disabled = true; // Disable Logo element
+    style.disabled = true; // Disable Style element
+    size.disabled = true; // Disable Size element
+    link.disabled = true; // Disable Link element
+    color.disabled = true; // Disable Color element
+    ccColor.disabled = true; // Disable Center Color element
+    ecColor.disabled = true; // Disable Edge Color element
+    bcColor.disabled = true; // Disable Back Color element
 }
+
 // Function to disable the save button while generating the QR code
-function initialdisableSaveButton() {
-    const saveButton = document.getElementById('saveQRCodeButton');
-
-    saveButton.disabled = true; // Disable the save button
+function initialDisableSaveButton() {
+    const saveButton = document.getElementById('saveQRCodeButton'); //Save Button element
+    saveButton.disabled = true; // Disable the save button element
     saveButton.style.backgroundColor = '#ccc'; // Change the background color to gray
     saveButton.style.cursor = 'not-allowed'; // Change cursor to indicate it's disabled
-
 }
-initialdisableSaveButton()
+
 // Function to enable the save button after QR code is generated
 function enableSaveButton() {
-    const saveButton = document.getElementById('saveQRCodeButton');
-    const logo = document.getElementById('logo');
-    const style = document.getElementById('style');
-    const size = document.getElementById('size');
-    const link = document.getElementById('link');
-    const color = document.getElementById('color');
-    const ccColor = document.getElementById('ccColor');
-    const ecColor = document.getElementById('ecColor');
-    const bcColor = document.getElementById('bcColor');
-    saveButton.disabled = false; // Enable the save button
+    const saveButton = document.getElementById('saveQRCodeButton'); //Save Button element
+    const logo = document.getElementById('logo'); // Chosen Logo element
+    const style = document.getElementById('style'); // Chosen Style element
+    const size = document.getElementById('size'); // Chosen Size element
+    const link = document.getElementById('link'); // Input link data element
+    const color = document.getElementById('color'); // Chosen Color element
+    const ccColor = document.getElementById('ccColor'); // Center Color element
+    const ecColor = document.getElementById('ecColor'); // Edge Color element
+    const bcColor = document.getElementById('bcColor'); // Back Color element
+    saveButton.disabled = false; // Enable the save button element
     saveButton.style.backgroundColor = ''; // Restore default background color
     saveButton.style.cursor = ''; // Restore default cursor
-    logo.disabled = false
-    style.disabled = false
-    size.disabled = false
-    link.disabled = false
-    color.disabled = false
-    ccColor.disabled = false
-    ecColor.disabled = false
-    bcColor.disabled = false
+    logo.disabled = false; // Enable Logo element
+    style.disabled = false; // Enable Style element
+    size.disabled = false; // Enable Size element
+    link.disabled = false; // Enable Link element
+    color.disabled = false; // Enable Color element
+    ccColor.disabled = false; // Enable Center Color element
+    ecColor.disabled = false; // Enable Edge Color element
+    bcColor.disabled = false; // Enable Back Color element
 }
-
+// Function to enable or disable color inputs based on color choice
 function checkColorInputs() {
-    const colorChoice = document.getElementById('color').value;
+    const colorChoice = document.getElementById('color').value; // Chosen Color
     if (colorChoice === 'custom') {
         enableColorInputs(); // Enable color inputs for custom colors
     } else {
         disableColorInputs(); // Disable color inputs for non-custom colors
-        // console.log('done')
     }
 }
 
-// Event listener for logo selection
-document.getElementById('logo').addEventListener('change', function () {
-    const logo = this.value;
-    const fileUploadRow = document.getElementById('fileUploadRow');
-    const defaultOption = document.querySelector("#color option[value='default']");
-    const colorDropdown = document.getElementById('color');
-
-    // Toggle file input visibility for custom logo
-    fileUploadRow.style.display = (logo === 'custom') ? 'flex' : 'none';
-
-    // Show/hide default color option
-    if (logo === 'none' || logo === 'custom') {
-        if (defaultOption) {
-            defaultOption.style.display = 'none';
-            colorDropdown.selectedIndex = 0; // Set to a different option (like "No Color")
-
-        }
-    } else {
-        if (defaultOption) {
-            defaultOption.style.display = 'block';
-            colorDropdown.selectedIndex = 2; // Show the default option
-        }
-    }
-
-    // const colorChoice = document.getElementById('color').value;
-
-    // Update color inputs based on selected logo
-    updateColorInputs(logo)
-    // if (colorChoice === 'custom') {
-    //     enableColorInputs(); // Enable color inputs for custom colors
-    // } else {
-    //     disableColorInputs(); // Disable color inputs for non-custom colors
-    //     console.log('done')
-    // }
-
-
-
-});
-
 // Function to update color inputs based on selected logo
 function updateColorInputs(logo) {
-    const ccColorInput = document.getElementById('ccColor');
-    const ecColorInput = document.getElementById('ecColor');
-    const bcColorInput = document.getElementById('bcColor');
-    const colorChoice = document.getElementById('color').value;
+    const ccColorInput = document.getElementById('ccColor'); // Center Color element
+    const ecColorInput = document.getElementById('ecColor'); // Edge Color element
+    const bcColorInput = document.getElementById('bcColor'); // Back Color element
+    const colorChoice = document.getElementById('color').value; // Chosen Color
 
-    // Set default colors based on selected logo
     let colors = defaultColors.default; // Default colors
+
+    // Set default colors based on selected logo and chosen color
     if (logo in defaultColors) {
         colors = defaultColors[logo]; // Get colors for the selected logo
         }
@@ -153,18 +113,11 @@ function updateColorInputs(logo) {
         colors = defaultColors.default; // Default colors
     }
 
-    ccColorInput.value = colors.cc; // Update center color
-    ecColorInput.value = colors.ec; // Update edge color
-    bcColorInput.value = colors.bc; // Update back color
-    checkColorInputs()
+    ccColorInput.value = colors.cc; // Update center color value
+    ecColorInput.value = colors.ec; // Update edge color value
+    bcColorInput.value = colors.bc; // Update back color value
+    checkColorInputs(); //Enable or disable color inputs based on color choice
 }
-
-// Function to toggle submit button state
-// function toggleSubmitButton(button, isDisabled, text) {
-//     button.disabled = isDisabled;  // Disable or enable the button
-//     button.style.backgroundColor = isDisabled ? '#ccc' : ''; // Change background color
-//     button.textContent = text; // Change button text
-// }
 
 // Function to validate hex color format
 function validateHex(hex) {
@@ -174,13 +127,13 @@ function validateHex(hex) {
 
 // Function to display the QR code image
 function displayQRCode(item) {
-    const qrCodeImage = document.getElementById('qrCodeImage');
+    const qrCodeImage = document.getElementById('qrCodeImage'); //QR code image element
     qrCodeImage.src = `data:image/png;base64,${item.qr_code_image}`; // Format base64 image
     qrCodeImage.style.display = 'block'; // Show the image
-    enableSaveButton(); // Enable save button after QR code is generated
+    enableSaveButton(); // Enable save button element after QR code is generated
 
     // Show the save button
-    const saveButton = document.getElementById('saveQRCodeButton');
+    const saveButton = document.getElementById('saveQRCodeButton'); //Save Button element
     saveButton.style.display = 'block'; // Make the save button visible
 
     // Set up download functionality
@@ -192,62 +145,56 @@ function displayQRCode(item) {
     };
 }
 //
-// // Default back color initialization
-// document.getElementById('bcColor').value = '#ffffff';
+
+initialDisableSaveButton() // Run when scrypt is activated
+
+// Event listener for logo selection
+document.getElementById('logo').addEventListener('change', function () {
+    const logo = this.value; // Chosen Logo value
+    const fileUploadRow = document.getElementById('fileUploadRow'); // File upload element
+    const defaultOption = document.querySelector("#color option[value='default']"); // Default color option
+    const colorDropdown = document.getElementById('color'); // Color options element
+
+    // Toggle file input visibility for custom logo
+    fileUploadRow.style.display = (logo === 'custom') ? 'flex' : 'none';
+
+    // Show/hide default color option
+    if (logo === 'none' || logo === 'custom') {
+        if (defaultOption) {
+            defaultOption.style.display = 'none'; // Clear default option
+            colorDropdown.selectedIndex = 0; // Set to a different option (0 = "No Color")
+
+        }
+    } else {
+        if (defaultOption) {
+            defaultOption.style.display = 'block'; // Set default option
+            colorDropdown.selectedIndex = 2; // Show the default option
+        }
+    }
+    updateColorInputs(logo) // Update color inputs based on selected logo
+
+});
 
 // Add an event listener to the color selection dropdown
 document.getElementById('color').addEventListener('change', function () {
-    // const colorChoice = this.value;
-    // console.log(colorChoice)
-    const logo = document.getElementById('logo').value;
-    // let ccColorInput = document.getElementById('ccColor');
-    // let ecColorInput = document.getElementById('ecColor');
-    // let bcColorInput = document.getElementById('bcColor');
-
-    // if (colorChoice === 'none') {
-    //     // Reset colors when "No Color" is selected
-    //     ccColorInput.value = '#000000'; // Default center color
-    //     ecColorInput.value = '#000000'; // Default edge color
-    //     bcColorInput.value = '#ffffff'; // Default back color
-    //     disableColorInputs(); // Disable color inputs
-    //     // console.log('disabled')
-    // } else if (colorChoice === 'custom') {
-    //     // Enable color inputs for custom color selection
-    //     enableColorInputs(); // Enable color inputs
-    //     // console.log('enabled')
-    // } else {
-    //     // Restore default colors based on the selected logo if "Default Color" is selected
-    //     if (logo in defaultColors) {
-    //         const selectedColors = defaultColors[logo];
-    //         ccColorInput.value = selectedColors.cc;
-    //         ecColorInput.value = selectedColors.ec;
-    //         bcColorInput.value = selectedColors.bc;
-    //     } else {
-    //         // Fallback to default colors if logo is not in defaultColors
-    //         ccColorInput.value = defaultColors.default.cc;
-    //         ecColorInput.value = defaultColors.default.ec;
-    //         bcColorInput.value = defaultColors.default.bc;
-    //     }
-    //     disableColorInputs(); // Disable color inputs for default colors
-    //     // console.log('disabled')
-    // }
-    updateColorInputs(logo)
+    const logo = document.getElementById('logo').value; // Selected logo
+    updateColorInputs(logo) // Update color inputs based on selected logo
 });
 
 // Listen for the form submission event
 document.getElementById('userForm').addEventListener('change', async function (event) {
     event.preventDefault();
-    let formData = new FormData();
+    let formData = new FormData(); //Create empty form data
     disableSaveButton(); // Disable the save button while generating the QR code
 
     // Collect form data
-    const logo = document.getElementById('logo').value;
-    const link = document.getElementById('link').value;
-    const cc = document.getElementById('ccColor').value;
-    const ec = document.getElementById('ecColor').value;
-    const bc = document.getElementById('bcColor').value;
-    const style = document.getElementById('style').value;
-    const size = document.getElementById('size').value;
+    const logo = document.getElementById('logo').value; // Chosen logo value
+    const link = document.getElementById('link').value; // Chosen link value
+    const cc = document.getElementById('ccColor').value; // Chosen center color value
+    const ec = document.getElementById('ecColor').value; // Chosen edge color value
+    const bc = document.getElementById('bcColor').value; // Chosen back color value
+    const style = document.getElementById('style').value; // Chosen style value
+    const size = document.getElementById('size').value; // Chosen size value
 
     // Validate color inputs
     if (!validateHex(cc) || !validateHex(ec) || !validateHex(bc)) {
@@ -256,29 +203,30 @@ document.getElementById('userForm').addEventListener('change', async function (e
     }
 
     // Add form fields to FormData object
-    formData.append('logo', logo);
-    formData.append('link', link);
-    formData.append('cc', cc);
-    formData.append('ec', ec);
-    formData.append('bc', bc);
-    formData.append('style', style);
-    formData.append('size', size);
+    formData.append('logo', logo); // Add logo data to form
+    formData.append('link', link); // Add link data to form
+    formData.append('cc', cc); // Add center color data to form
+    formData.append('ec', ec); // Add edge color data to form
+    formData.append('bc', bc); // Add back color data to form
+    formData.append('style', style); // Add style data to form
+    formData.append('size', size); // Add size data to form
 
-    // If a custom logo is selected, append the file to FormData
+    // If a custom logo is selected, append the file path to FormData
     if (logo === 'custom') {
         const logoFile = document.getElementById('logoFile').files[0];
         if (logoFile) {
-            formData.append('logoFile', logoFile); // Append the logo file
+            formData.append('logoFile', logoFile); // Append the logo file path
         }
     }
 
 
     try {
-        const response = await fetch('http://127.0.0.1:5000/', {
-            method: 'POST',
-            body: formData // No need to set Content-Type, let the browser do it
-        });
-
+        const response = await fetch('http://127.0.0.1:5000/',
+            {
+                method: 'POST',
+                body: formData // No need to set Content-Type, let the browser do it
+                }
+            );
         if (response.ok) {
             const result = await response.json();
             displayQRCode(result); // Display QR code
