@@ -141,5 +141,3 @@ class QRCodeGenerator:
             logo_position = calculate_logo_position(self.qr_image, logo_image)
             mask = logo_image.split()[3] if logo_image.mode == 'RGBA' else None
             self.qr_image.paste(im=logo_image, box=logo_position, mask=mask)
-
-
