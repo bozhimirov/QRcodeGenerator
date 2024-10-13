@@ -4,15 +4,44 @@ from PIL import Image
 from PIL.Image import Resampling
 import qrcode
 from qrcode.image.styledpil import StyledPilImage
-from qrcode.image.styles.colormasks import RadialGradiantColorMask
+from qrcode.image.styles.colormasks import RadialGradiantColorMask, QRColorMask
+from qrcode.main import GenericImage
+
 from constants import STYLES, HEX_COLORS, LOGO_PATHS, SIZES
 from helpers import hex_to_rgb, convert_logo, calculate_logo_position
 from validators import validate_hex, validate_style, validate_size
 
 
 class QRCodeGenerator:
-    def __init__(self, style: str, link: str, size: str, cc: str, ec: str, bc: str, logo=None):
-        """Initialize the QR code generator."""
+    """
+    A class representing a qr code generator.
+
+    Attributes:
+        logo (str): The logo shown at the center of the QR code image.
+        style (StyledPilQRModuleDrawer): The type of style used when creating QR code image.
+        size (str): The size of the logo at the center of the QR code image.
+        link (str): The incorporated data/link into the QR code image.
+        cc (str): The central color used for making gradient color of the QR code image.
+        ec (str): The edge color used for making gradient color of the QR code image.
+        bc (str): The back color used for making gradient color of the QR code image.
+        qr (QRCode): Created QR code object.
+        color_mask (QRColorMask): The color mask of the QR code image.
+        qr_image (GenericImage): The final QR code image.
+    """
+    def __init__(self, style: str, link: str, size: str, cc: str, ec: str, bc: str, logo=None) -> None:
+        """Initialize the QR code generator.
+
+        Parameters:
+            logo (str): The logo shown at the center of the QR code image.
+            style (StyledPilQRModuleDrawer): The type of style used when creating QR code image.
+            size (str): The size of the logo at the center of the QR code image.
+            link (str): The incorporated data/link into the QR code image.
+            cc (str): The central color used for making gradient color of the QR code image.
+            ec (str): The edge color used for making gradient color of the QR code image.
+            bc (str): The back color used for making gradient color of the QR code image.
+        Return:
+        None
+        """
         self.logo = logo
         self.style = STYLES[style] if validate_style(style, STYLES) else STYLES['default']
         self.size = SIZES[size] if validate_size(size, SIZES) else SIZES['big']
@@ -25,28 +54,31 @@ class QRCodeGenerator:
         self.color_mask = self._make_color_mask()
         self.qr_image = None
 
-    def _make_color_mask(self):
+    def _make_color_mask(self) -> QRColorMask:
+        """
+        This internal function generates the color mask needed for QR code generator.
+
+        Return:
+        QRColorMask: Return the generated color mask using central, edge and back colors.
+        """
         return RadialGradiantColorMask(back_color=self.bc, center_color=self.cc, edge_color=self.ec)
 
-    def _resize_image(self, new_size=(440, 440)):
+    def _resize_image(self, new_size=(440, 440)) -> GenericImage:
+        """
+        This internal function changes the size of the generated QR code image with fixed size(440px, 440px).
+
+        Return:
+        GenericImage: Returns QR code image with predefined width and height.
+        """
         return self.qr_image.resize(new_size)
 
-    def add_data(self):
-        """Add data to QR code image."""
-        self.qr.add_data(self.link)
-        self.qr.make(fit=True)
-
-    def make_image(self):
-        """Create a styled QR code image."""
-        self.qr_image = self.qr.make_image(
-            color_mask=self.color_mask,
-            image_factory=StyledPilImage,
-            module_drawer=self.style,
-        )
-        self.qr_image = self._resize_image()
-
     def _logo_resize(self, logo_image: Image) -> Image:
-        """Resize the logo"""
+        """
+        This internal function resize the logo based on the size of the QR code image.
+
+        Return:
+        Image: Returns the resized logo.
+        """
         # TODO diff logo ratio w vs h
         base_width = self.size
         width_percent = (base_width / float(logo_image.size[0]))
@@ -54,7 +86,13 @@ class QRCodeGenerator:
         return logo_image.resize((base_width, hsize), Resampling.LANCZOS)
 
     def _get_logo(self) -> Image:
-        """Get the logo if any"""
+        """
+        This internal function get the logo if any or uses predefined logos.
+        Converts logo image into RGBA mode if needed.
+
+        Return:
+        Image: Image of the logo provided.
+        """
         if self.logo in LOGO_PATHS.keys():
             logo_path = os.path.join(os.getcwd(), self.logo)
             if os.path.exists(logo_path):
@@ -66,8 +104,38 @@ class QRCodeGenerator:
             logo_image = Image.open(logo_path)
             return convert_logo(logo_image)
 
-    def add_logo(self):
-        """Load and embed a logo if available"""
+    def add_data(self) -> None:
+        """
+        This function adds data/link to the generated QR code object.
+
+        Return:
+        The function directly modify one of the class attributes - QR code object.
+        """
+        self.qr.add_data(self.link)
+        self.qr.make(fit=True)
+
+    def make_image(self) -> None:
+        """
+        This function creates a styled QR code image from the given QR code object using the generated color mask and
+        provided style. The image is resized to predefined values.
+
+        Return:
+        The function directly modify the class attributes - QR code image.
+        """
+        self.qr_image = self.qr.make_image(
+            color_mask=self.color_mask,
+            image_factory=StyledPilImage,
+            module_drawer=self.style,
+        )
+        self.qr_image = self._resize_image()
+
+    def add_logo(self) -> None:
+        """
+        This function load and embed a logo into the QR code image if available
+
+        Return:
+        The function directly modify one of the class attributes - QR code image.
+        """
         logo_image = self._logo_resize(self._get_logo() if self._get_logo() else None)
         if logo_image:
             logo_position = calculate_logo_position(self.qr_image, logo_image)
