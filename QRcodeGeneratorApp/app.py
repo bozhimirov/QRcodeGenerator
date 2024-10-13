@@ -1,22 +1,20 @@
-# app.py
 
 import os
 
-import pyshorteners as pyshorteners
 from flask import Flask, jsonify, request, render_template
 from io import BytesIO
 import base64
 from class_qr_code_with_image import QRCodeGenerator
 from constants import LOGO_PATHS
-# from validators import validate_url
 from helpers import shorten_link
 
 app = Flask(__name__)
 
-
 # Define your logo upload folder here
 app.config['LOGOS'] = 'static/logos'  # Ensure this directory exists
 
+# Define index page
+INDEX = "index.html"
 
 @app.route('/', methods=['POST', 'GET'])
 def manage():
@@ -44,7 +42,6 @@ def manage():
                 logo = 'pomarina'
             logo_path = LOGO_PATHS[logo]
 
-
         # Initialize the QR code generator
         qr_generator = QRCodeGenerator(
             logo=logo_path, style=style, size=size, link=link, cc=cc, ec=ec, bc=bc
@@ -66,27 +63,7 @@ def manage():
 
         return jsonify({'qr_code_image': img_base64})
 
-    return render_template('index.html')
-
-
-@app.route('/upload_logo', methods=['POST'])
-def upload_logo():
-    if 'logoFile' not in request.files:
-        return "No file part", 400
-
-    logo_file = request.files['logoFile']
-    if logo_file.filename == '':
-        return "No selected file", 400
-
-    # Ensure the logos directory exists
-    if not os.path.exists(app.config['LOGOS']):
-        os.makedirs(app.config['LOGOS'])
-
-    # Save the file
-    logo_filename = os.path.join(app.config['LOGOS'], logo_file.filename)
-    logo_file.save(logo_filename)
-
-    return jsonify({'message': 'Logo uploaded successfully'}), 200
+    return render_template(INDEX)
 
 
 if __name__ == '__main__':
