@@ -62,7 +62,7 @@
             <!-- Frame for displaying the image -->
             <div class="image-container">
                 <div class="image-frame">
-                    <img src="./static/logos/pomarina.png" alt="QR Code" id="qrCodeImage" >
+                    <img src="../static/logos/pomarina.png" alt="QR Code" id="qrCodeImage" >
                 </div>
 
                 <!-- Color Inputs on the right side of the image -->
@@ -88,27 +88,21 @@
                     <div class="inner-colors">
                         <div class="color-section">
                             <label id='ccLabel' for="cc">center</label>
-    {#                        <input class="hidden" type="text" id="cc" name="cc" placeholder="Enter color..." oninput="updateColorSquare('cc', this.value)">#}
                             <input type="color" class="color-square"  id="ccColor" name="ccColor"
-    {#                               onchange="updateTextField('cc', this.value)"#}
                                     disabled=disabled"
                             >
                         </div>
 
                         <div class="color-section">
                             <label id='ecLabel' for="ec">edge</label>
-    {#                        <input class="hidden" type="text" id="ec" name="ec" placeholder="Enter color..." oninput="updateColorSquare('ec', this.value)">#}
                             <input type="color" id="ecColor" class="color-square"  name="ecColor"
-    {#                               onchange="updateTextField('ec', this.value)"#}
                                     disabled="disabled"
                             >
                         </div>
 
                         <div class="color-section">
                             <label for="bc">back</label>
-    {#                        <input class="hidden" type="text" id="bc" name="bc" value="#ffffff" placeholder="Enter color..." oninput="updateColorSquare('bc', this.value)">#}
                             <input type="color" class="color-square" id="bcColor" name="bcColor" value="#ffffff"
-    {#                               onchange="updateTextField('bc', this.value)"#}
                                     disabled="disabled"
                             >
                         </div>
