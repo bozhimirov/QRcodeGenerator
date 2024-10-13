@@ -144,7 +144,22 @@ function displayQRCode(item) {
         link.click(); // Programmatically click the link to trigger the download
     };
 }
+
 //
+function colorFill(fillValue) {
+    const edgeElement = document.getElementById('ecColor');
+    const centerLabel = document.getElementById('ccLabel');
+    const edgeLabel = document.getElementById('ecLabel');
+    if (fillValue === 'solid') {
+        centerLabel.value = 'front';
+        edgeElement.style.display = 'none';
+        edgeLabel.style.display = 'none';
+    } else {
+        centerLabel.value = 'center';
+        edgeElement.style.display = 'flex';
+        edgeLabel.style.display = 'flex';
+    }
+}
 
 initialDisableSaveButton() // Run when scrypt is activated
 
@@ -154,6 +169,7 @@ document.getElementById('logo').addEventListener('change', function () {
     const fileUploadRow = document.getElementById('fileUploadRow'); // File upload element
     const defaultOption = document.querySelector("#color option[value='default']"); // Default color option
     const colorDropdown = document.getElementById('color'); // Color options element
+    const fillDropdown = document.getElementById('color-fill'); // Color options element
 
     // Toggle file input visibility for custom logo
     fileUploadRow.style.display = (logo === 'custom') ? 'flex' : 'none';
@@ -163,22 +179,50 @@ document.getElementById('logo').addEventListener('change', function () {
         if (defaultOption) {
             defaultOption.style.display = 'none'; // Clear default option
             colorDropdown.selectedIndex = 0; // Set to a different option (0 = "No Color")
-
+            displayFill()
         }
     } else {
+
         if (defaultOption) {
             defaultOption.style.display = 'block'; // Set default option
             colorDropdown.selectedIndex = 2; // Show the default option
+            fillDropdown.selectedIndex = 1; // Select gradient option if fb or ig
+            displayFill()
         }
     }
     updateColorInputs(logo) // Update color inputs based on selected logo
 
 });
 
+function displayFill() {
+    const color = document.getElementById('color').value; // Selected color value
+    const fill = document.getElementById('color-fill-box')
+    const fillValue = document.getElementById('color-fill').value
+    if (color === 'custom') {
+        fill.style.display = 'flex'
+        colorFill(fillValue)
+    }
+    else if (color === 'none') {
+        fill.style.display = 'none'
+        const edgeElement = document.getElementById('ecColor');
+        const centerLabel = document.getElementById('ccLabel');
+        const edgeLabel = document.getElementById('ecLabel');
+        centerLabel.value = 'front';
+        edgeElement.style.display = 'none';
+        edgeLabel.style.display = 'none';
+    }
+    else {
+        fill.style.display = 'none'
+        colorFill(fillValue)
+    }
+    // console.log(fillValue)
+}
+
 // Add an event listener to the color selection dropdown
 document.getElementById('color').addEventListener('change', function () {
     const logo = document.getElementById('logo').value; // Selected logo
     updateColorInputs(logo) // Update color inputs based on selected logo
+    displayFill()
 });
 
 // Listen for the form submission event
@@ -186,7 +230,7 @@ document.getElementById('userForm').addEventListener('change', async function (e
     event.preventDefault();
     let formData = new FormData(); //Create empty form data
     disableSaveButton(); // Disable the save button while generating the QR code
-
+    // displayFill()
     // Collect form data
     const logo = document.getElementById('logo').value; // Chosen logo value
     const link = document.getElementById('link').value; // Chosen link value
@@ -195,6 +239,8 @@ document.getElementById('userForm').addEventListener('change', async function (e
     const bc = document.getElementById('bcColor').value; // Chosen back color value
     const style = document.getElementById('style').value; // Chosen style value
     const size = document.getElementById('size').value; // Chosen size value
+    const fill = document.getElementById('color-fill').value; // Chosen fill value
+    const color = document.getElementById('color').value; // Chosen fill value
 
     // Validate color inputs
     if (!validateHex(cc) || !validateHex(ec) || !validateHex(bc)) {
@@ -206,7 +252,11 @@ document.getElementById('userForm').addEventListener('change', async function (e
     formData.append('logo', logo); // Add logo data to form
     formData.append('link', link); // Add link data to form
     formData.append('cc', cc); // Add center color data to form
-    formData.append('ec', ec); // Add edge color data to form
+    if (fill === 'solid' && color === 'custom') {
+        formData.append('ec', cc); // Add edge color data to form
+    } else {
+        formData.append('ec', ec); // Add edge color data to form
+    }
     formData.append('bc', bc); // Add back color data to form
     formData.append('style', style); // Add style data to form
     formData.append('size', size); // Add size data to form
@@ -240,4 +290,10 @@ document.getElementById('userForm').addEventListener('change', async function (e
         console.error('Error:', error);
         alert('An error occurred while generating the QR code. Please try again.');
     }
+});
+
+document.getElementById('color-fill').addEventListener('change', function () {
+    const fillValue = this.value; // Fill color value
+    displayFill()
+    colorFill(fillValue)
 });
