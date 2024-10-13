@@ -82,15 +82,12 @@ class QRCodeGenerator:
         Image: Returns the resized logo.
         """
         base_width = self.size
-        print(logo_image.size)
         if logo_image.size[0] >= logo_image.size[1]:
             width_percent = (base_width / float(logo_image.size[0]))
             h_size = int((float(logo_image.size[1]) * float(width_percent)))
             return logo_image.resize((base_width, h_size), Resampling.LANCZOS)
         height_percent = (base_width / float(logo_image.size[1]))
-        print(height_percent)
         w_size = int((float(logo_image.size[0]) * float(height_percent)))
-        print(w_size)
         return logo_image.resize((w_size, base_width), Resampling.LANCZOS)
 
     def _get_logo(self) -> Image:
