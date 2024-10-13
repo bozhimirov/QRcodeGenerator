@@ -4,7 +4,7 @@ from PIL import Image
 from PIL.Image import Resampling
 import qrcode
 from qrcode.image.styledpil import StyledPilImage
-from qrcode.image.styles.colormasks import RadialGradiantColorMask, QRColorMask
+from qrcode.image.styles.colormasks import RadialGradiantColorMask, SolidFillColorMask, QRColorMask
 from qrcode.main import GenericImage
 
 from constants import STYLES, HEX_COLORS, LOGO_PATHS, SIZES
@@ -61,6 +61,8 @@ class QRCodeGenerator:
         Return:
         QRColorMask: Return the generated color mask using central, edge and back colors.
         """
+        if self.cc == self.ec:
+            return SolidFillColorMask(front_color=self.cc, back_color=self.bc)
         return RadialGradiantColorMask(back_color=self.bc, center_color=self.cc, edge_color=self.ec)
 
     def _resize_image(self, new_size=(440, 440)) -> GenericImage:
@@ -79,11 +81,17 @@ class QRCodeGenerator:
         Return:
         Image: Returns the resized logo.
         """
-        # TODO diff logo ratio w vs h
         base_width = self.size
-        width_percent = (base_width / float(logo_image.size[0]))
-        hsize = int((float(logo_image.size[1]) * float(width_percent)))
-        return logo_image.resize((base_width, hsize), Resampling.LANCZOS)
+        print(logo_image.size)
+        if logo_image.size[0] >= logo_image.size[1]:
+            width_percent = (base_width / float(logo_image.size[0]))
+            h_size = int((float(logo_image.size[1]) * float(width_percent)))
+            return logo_image.resize((base_width, h_size), Resampling.LANCZOS)
+        height_percent = (base_width / float(logo_image.size[1]))
+        print(height_percent)
+        w_size = int((float(logo_image.size[0]) * float(height_percent)))
+        print(w_size)
+        return logo_image.resize((w_size, base_width), Resampling.LANCZOS)
 
     def _get_logo(self) -> Image:
         """
