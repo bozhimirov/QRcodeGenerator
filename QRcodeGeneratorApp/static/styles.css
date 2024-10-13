@@ -90,13 +90,17 @@ select {
 .color-row {
     display: flex;
     flex-direction: column;
-    margin: 0 auto;
+    margin: 5px 0 10px auto;
     align-items: center;
     width: 310px;
 }
 
 .color-row label {
-    margin: 10px auto 15px auto;
+    margin: auto auto 6px auto;
+}
+
+#color-label {
+    margin: auto;
 }
 
 .color-row input[type="color"] {
@@ -124,7 +128,7 @@ button {
     font-size: 16px;
     border-radius: 4px;
     cursor: pointer;
-    margin: auto;
+    margin: auto auto 0 auto;
 }
 
 button:hover {
@@ -143,7 +147,22 @@ button:hover {
 .inner-colors {
     display: flex;
     flex-direction: row;
-    margin-bottom: 18px;
+    margin: 5px auto auto auto;
 }
+
+.color-fill {
+    display: flex;
+    flex-direction: row;
+    margin: 5px 0 10px auto;
+    align-items: center;
+    width: 97%;
+}
+
+.color-fill label {
+    width: 40px;
+    margin: auto auto 6px auto;
+}
+
+
 
 /*TODO media queries*/
