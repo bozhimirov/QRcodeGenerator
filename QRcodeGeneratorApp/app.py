@@ -1,6 +1,4 @@
 
-import os
-
 from flask import Flask, jsonify, request, render_template
 from io import BytesIO
 import base64
@@ -15,6 +13,7 @@ app.config['LOGOS'] = 'static/logos'  # Ensure this directory exists
 
 # Define index page
 INDEX = "index.html"
+
 
 @app.route('/', methods=['POST', 'GET'])
 def manage():
