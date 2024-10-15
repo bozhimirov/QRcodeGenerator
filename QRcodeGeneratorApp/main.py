@@ -65,5 +65,5 @@ def manage():
     return render_template(INDEX)
 
 
-if __name__ == '__main__':
+if __name__ == '__main__' and __package__ is None:
     app.run(debug=True)
