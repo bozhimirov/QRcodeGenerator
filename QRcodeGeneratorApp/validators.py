@@ -46,19 +46,3 @@ def validate_size(size: str, sizes: dict) -> bool:
     """
     return size in sizes.keys()
 
-
-# -- validate the len of the name and remove unwanted symbols --
-def validate_name(name: str) -> str:
-    """
-    This function validates the len of the name and remove unwanted symbols.
-
-    Parameters:
-        name (str): the name that have to be checked and changed if needed.
-
-    Return:
-        str: return the name(corrected if needed),
-         if the name length is not in the provided values, returns an empty string
-    """
-    if 0 < len(name) < 100:
-        return name.replace(' ', '', -1).replace('.', '', -1)
-    return ''
