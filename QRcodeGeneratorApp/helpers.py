@@ -14,7 +14,12 @@ def hex_to_rgb(color: str) -> tuple:
     """
     value = color.lstrip('#')
     len_value = len(value)
-    return tuple(int(value[i:i + len_value // 3], 16) for i in range(0, len_value, len_value // 3))
+    if len_value == 3:
+        value = ''.join([(x+x) for x in value])
+        len_value = len(value)
+    if len_value == 6:
+        return tuple(int(value[i:i + len_value // 3], 16) for i in range(0, len_value, len_value // 3))
+    raise Exception('unwanted format')
 
 
 # -- if the data provided is recognized as website link, it is formatted to be shorter--
@@ -30,7 +35,7 @@ def shorten_link(data: str) -> str:
         str: Return the data with the same or shorter length.
     """
     import re
-    replaced = re.sub(r"(?:https?://)?(?:www\.|mobile\.|touch\.|mbasic\.)", '', data, flags=re.IGNORECASE)
+    replaced = re.sub(r"(?:https?://)?(?:www\.|mobile\.|touch\.|mbasic\.)?(/$)?", '', data, flags=re.IGNORECASE)
     shorten = reformat_facebook_link(replaced)
     return shorten
 
