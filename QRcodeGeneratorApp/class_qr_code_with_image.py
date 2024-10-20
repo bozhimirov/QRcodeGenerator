@@ -1,5 +1,4 @@
 import os
-
 from PIL import Image
 from PIL.Image import Resampling
 import qrcode
@@ -7,7 +6,7 @@ from qrcode.image.styledpil import StyledPilImage
 from qrcode.image.styles.colormasks import RadialGradiantColorMask, SolidFillColorMask, QRColorMask
 from qrcode.main import GenericImage
 
-from constants import STYLES, HEX_COLORS, LOGO_PATHS, SIZES
+from constants import STYLES, SIZES, HEX_COLORS, LOGO_PATHS
 from helpers import hex_to_rgb, convert_logo, calculate_logo_position
 from validators import validate_hex, validate_style, validate_size
 
@@ -81,14 +80,16 @@ class QRCodeGenerator:
         Return:
         Image: Returns the resized logo.
         """
-        base_width = self.size
-        if logo_image.size[0] >= logo_image.size[1]:
-            width_percent = (base_width / float(logo_image.size[0]))
-            h_size = int((float(logo_image.size[1]) * float(width_percent)))
-            return logo_image.resize((base_width, h_size), Resampling.LANCZOS)
-        height_percent = (base_width / float(logo_image.size[1]))
-        w_size = int((float(logo_image.size[0]) * float(height_percent)))
-        return logo_image.resize((w_size, base_width), Resampling.LANCZOS)
+        if logo_image:
+            base_width = self.size
+            if logo_image.size[0] >= logo_image.size[1]:
+                width_percent = (base_width / float(logo_image.size[0]))
+                h_size = int((float(logo_image.size[1]) * float(width_percent)))
+                return logo_image.resize((base_width, h_size), Resampling.LANCZOS)
+            height_percent = (base_width / float(logo_image.size[1]))
+            w_size = int((float(logo_image.size[0]) * float(height_percent)))
+            return logo_image.resize((w_size, base_width), Resampling.LANCZOS)
+        return None
 
     def _get_logo(self) -> Image:
         """
@@ -103,6 +104,8 @@ class QRCodeGenerator:
             if os.path.exists(logo_path):
                 logo_image = Image.open(logo_path)
                 return convert_logo(logo_image)
+            else:
+                return None
 
         else:
             logo_path = self.logo
