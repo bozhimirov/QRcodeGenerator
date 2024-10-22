@@ -100,17 +100,16 @@ class QRCodeGenerator:
         Image: Image of the logo provided.
         """
         if self.logo in LOGO_PATHS.keys():
-            logo_path = os.path.join(os.getcwd(), self.logo)
-            if os.path.exists(logo_path):
-                logo_image = Image.open(logo_path)
-                return convert_logo(logo_image)
-            else:
-                return None
-
+            logo_path = os.path.join(LOGO_PATHS[self.logo])
         else:
             logo_path = self.logo
+        if os.path.exists(logo_path):
             logo_image = Image.open(logo_path)
             return convert_logo(logo_image)
+        else:
+            return None
+
+
 
     def add_data(self) -> None:
         """
