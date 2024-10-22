@@ -1,13 +1,14 @@
+import os
 
 from qrcode.image.styles.moduledrawers import RoundedModuleDrawer, CircleModuleDrawer, GappedSquareModuleDrawer, \
     SquareModuleDrawer, VerticalBarsDrawer, HorizontalBarsDrawer
 
 # Constants for logo paths
 LOGO_PATHS = {
-    'facebook': 'static/logos/fblogo.png',
-    'instagram': "static/logos/iglogo.png",
+    'facebook': os.path.join('static', 'logos', 'fblogo.png'),
+    'instagram': os.path.join('static', 'logos', 'iglogo.png'),
     'none': None,
-    'pomarina': 'static/logos/pomarina.png',
+    'pomarina': os.path.join('static', 'logos', 'pomarina.png'),
 }
 
 # Hex color definitions
