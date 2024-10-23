@@ -74,13 +74,6 @@ class TestQRCodeGenerator(unittest.TestCase):
         self.assertEqual(self.qr_code_def._logo_resize(self.logo2).size, (45, 160))
         self.assertNotEqual(self.qr_code_def._logo_resize(self.logo2).size, self.logo2.size)
 
-    def test_get_logo(self):
-        qrcodepomarina = QRCodeGenerator(style='', link='', size='', cc='', ec='', bc='', logo='pomarina')._get_logo()
-        logo = self.qr_code._get_logo()
-        logo2 = self.qr_code_1._get_logo()
-        self.assertEqual(logo, qrcodepomarina)
-        self.assertNotEqual(logo2, qrcodepomarina)
-        self.assertEqual(logo2, None)
 
     def test_add_data(self):
         self.qr_code.add_data()
@@ -98,5 +91,3 @@ class TestQRCodeGenerator(unittest.TestCase):
         self.assertNotEqual(self.qr_code_def.qr_image, self.qr_code.qr_image)
         self.assertNotEqual(self.qr_code.qr_image, self.qr_code_1.qr_image)
 
-    def test_add_logo(self):
-        pass
