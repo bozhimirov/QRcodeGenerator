@@ -27,6 +27,7 @@ class QRCodeGenerator:
         color_mask (QRColorMask): The color mask of the QR code image.
         qr_image (GenericImage): The final QR code image.
     """
+
     def __init__(self, style: str, link: str, size: str, cc: str, ec: str, bc: str, logo=None) -> None:
         """Initialize the QR code generator.
 
@@ -100,16 +101,16 @@ class QRCodeGenerator:
         Image: Image of the logo provided.
         """
         if self.logo in LOGO_PATHS.keys():
-            logo_path = os.path.join(LOGO_PATHS[self.logo])
+            logo_path = os.path.join(os.getcwd(), self.logo)
+            if os.path.exists(logo_path):
+                logo_image = Image.open(logo_path)
+                return convert_logo(logo_image)
+            else:
+                return None
         else:
             logo_path = self.logo
-        if os.path.exists(logo_path):
             logo_image = Image.open(logo_path)
             return convert_logo(logo_image)
-        else:
-            return None
-
-
 
     def add_data(self) -> None:
         """
@@ -144,6 +145,7 @@ class QRCodeGenerator:
         The function directly modify one of the class attributes - QR code image.
         """
         logo_image = self._logo_resize(self._get_logo() if self._get_logo() else None)
+        print(logo_image)
         if logo_image:
             logo_position = calculate_logo_position(self.qr_image, logo_image)
             mask = logo_image.split()[3] if logo_image.mode == 'RGBA' else None
