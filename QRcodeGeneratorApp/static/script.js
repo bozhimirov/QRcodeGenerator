@@ -1,5 +1,4 @@
 const saveBackgroundInactive = '#ccc';
-const defaultLink = 'www.instagram.com/profile.php?id=100087327551813'
 
 // Constant that store the default colors for logos
 const defaultColors = {
@@ -37,7 +36,6 @@ const elements = {
     fillDropdown: document.getElementById('color-fill'),
     fillBox: document.getElementById('color-fill-box'),
     qrCodeImage: document.getElementById('qrCodeImage'),
-    logoFile: document.getElementById('logoFile').files[0]
 };
 
 
@@ -195,7 +193,8 @@ document.getElementById('userForm').addEventListener('change', async function (e
 
     // If a custom logo is selected, append the file path to FormData
     if (elements.logo.value === 'custom') {
-        if (elements.logoFile) formData.append('logoFile', elements.logoFile); // Append the logo file path
+        const logoFile = document.getElementById('logoFile').files[0];
+        if (logoFile) formData.append('logoFile', logoFile); // Append the logo file path
     }
 
     try {
@@ -208,7 +207,7 @@ document.getElementById('userForm').addEventListener('change', async function (e
         if (response.ok) {
             const result = await response.json();
             displayQRCode(result); // Display QR code
-            // toggleColorInputs(elements.color.value === 'custom');
+            toggleColorInputs(elements.color.value === 'custom');
 
         } else {
             const errorMessage = await response.text();
