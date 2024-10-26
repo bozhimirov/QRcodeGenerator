@@ -66,8 +66,10 @@ function initialDisableSaveButton() {
 }
 // Function to update color inputs based on selected logo
 function updateColorInputs(logo) {
-    const colors = defaultColors[logo] || defaultColors.default; // Set default colors based on selected logo and chosen color
-
+    let colors = defaultColors[logo] || defaultColors.default; // Set default colors based on selected logo and chosen color
+    if (elements.color.value === 'none') {
+        colors = defaultColors.default
+    }
     elements.ccColor.value = colors.cc; // Update center color value
     elements.ecColor.value = colors.ec; // Update edge color value
     elements.bcColor.value = colors.bc; // Update back color value
@@ -80,19 +82,23 @@ function validateHex(hex) {
     return /^#[0-9A-Fa-f]{6}$/.test(hex);
 }
 
+
 // Function to display the QR code image
 function displayQRCode(item) {
     elements.qrCodeImage.src = `data:image/png;base64,${item.qr_code_image}`; // Format base64 image
     elements.qrCodeImage.style.display = 'block'; // Show the image
-    toggleSaveButton(true); // Enable save button element after QR code is generated
-
-    elements.saveButton.style.display = 'block'; // Make the save button visible
-    elements.saveButton.onclick = () => {
-        const link = document.createElement('a'); // Create an anchor element
-        link.href = elements.qrCodeImage.src; // Set the href to the QR code image source
-        link.download = 'qrcode.png'; // Specify the default filename
-        link.click(); // Programmatically click the link to trigger the download
+    elements.qrCodeImage.onload = () => {
+        toggleSaveButton(true); // Enable the save button
     };
+}
+
+// Function to save qr code image locally
+function save() {
+    const link = document.createElement('a');
+    link.href = document.getElementById('qrCodeImage').src;
+    link.download = 'qrcode.png';
+    link.click();
+    link.delete;
 }
 
 // Function that display colors upon fill value selection
@@ -143,26 +149,24 @@ document.getElementById('logo').addEventListener('change', function () {
 
 // Function that display or hide color elements upon color value selection
 function displayFill() {
-    // const fillValue = elements.fillDropdown.value;
-    // const fillBox = document.getElementById('color-fill-box');
     const isCustom = elements.color.value === 'custom'; // Check if color value is custom or not
 
     elements.fillBox.style.display = isCustom ? 'flex' : 'none'; // Display or Hide element
     toggleColorInputs(isCustom);
     if (elements.color.value === 'none') {
         elements.ecColor.style.display = 'none'; // Hide Edge Color element
-        document.getElementById('ccLabel').value = 'front'; // Change name of central element
-        document.getElementById('ecLabel').style.display = 'none'; // Hide edge label
-        document.getElementById('ecColor').style.display = 'none'; // Hide edge element
+        elements.ccLabel.value = 'front'; // Change name of central element
+        elements.ecLabel.style.display = 'none'; // Hide edge label
+        elements.ecColor.style.display = 'none'; // Hide edge element
     } else {
         elements.ecColor.style.display = 'flex'; // Display Edge Color element
         colorFill(elements.fillDropdown.value); // Display colors upon fill value selection
     }
 }
 
+
 // Add an event listener to the color selection dropdown
 document.getElementById('color').addEventListener('change', function () {
-    // const logo = document.getElementById('logo').value; // Selected logo
     updateColorInputs(elements.logo.value) // Update color inputs based on selected logo
     displayFill() // Display or hide color elements upon color value selection
 });
@@ -171,7 +175,6 @@ document.getElementById('color').addEventListener('change', function () {
 document.getElementById('userForm').addEventListener('change', async function (event) {
     event.preventDefault();
     const formData = new FormData(); //Create empty form data
-
     toggleSaveButton(false); // Disable Save button
 
     // Validate color inputs
@@ -182,7 +185,6 @@ document.getElementById('userForm').addEventListener('change', async function (e
 
     // Add form fields to FormData object
     formData.append('logo', elements.logo.value); // Add logo data to form
-    // formData.append('link', elements.link.value !== '' ? 'elements.link.value' : defaultLink); // Add link data to form
     formData.append('link', elements.link.value); // Add link data to form
     formData.append('cc', elements.ccColor.value); // Add center color data to form
     formData.append('ec', elements.fillDropdown.value === 'solid' && elements.color.value === 'custom' ?
@@ -208,7 +210,6 @@ document.getElementById('userForm').addEventListener('change', async function (e
             const result = await response.json();
             displayQRCode(result); // Display QR code
             toggleColorInputs(elements.color.value === 'custom');
-
         } else {
             const errorMessage = await response.text();
             console.error('Error:', response.statusText, errorMessage);
@@ -223,6 +224,9 @@ document.getElementById('userForm').addEventListener('change', async function (e
 // Listen for the color fill changes
 document.getElementById('color-fill').addEventListener('change', function () {
     const fillValue = this.value; // Fill color value
-    displayFill() // Display or hide color elements upon color value selection
     colorFill(fillValue) // Display colors upon fill value selection
+    displayFill() // Display or hide color elements upon color value selection
 });
+
+
+
