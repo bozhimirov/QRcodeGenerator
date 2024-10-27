@@ -47,11 +47,11 @@
 
             </div>
             <div class="flex-row" id="fileUploadRow" style="display: none;">
-                <label for="logoFile">Upload Logo from Device:</label>
+                <label class="label-upload" for="logoFile">Upload Logo:</label>
                 <input type="file" id="logoFile" name="logoFile" accept="image/*">
             </div>
             <!-- Link Label and Input in One Row -->
-            <div class="flex-row">
+            <div class="flex-row link">
                 <label class="label-link" for="link">Link:</label>
                 <input type="text" id="link" name="link" required>
             </div>
@@ -108,11 +108,12 @@
                         </div>
 
                     </div>
-                    <button id="saveQRCodeButton" formnovalidate onclick="save()">Save QR Code</button>
                 </div>
             </div>
 
         </form>
+
+                    <button id="saveQRCodeButton"  onclick="save()">Save QR Code</button>
     </div>
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
