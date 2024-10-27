@@ -52,9 +52,11 @@ function toggleSaveButton(isEnabled) {
 
 // Enable or disable color inputs based on selection
 function toggleColorInputs(enable) {
-    elements.ccColor.disabled = !enable; // Toggle Center Color element
-    elements.ecColor.disabled = !enable; // Toggle Edge Color element
-    elements.bcColor.disabled = !enable; // Toggle Back Color element
+    ['ccColor', 'ecColor', 'bcColor'].forEach(id => {
+        elements[id].disabled = !enable;
+        elements[id].style.pointerEvents = enable ? 'auto' : 'none';  // Disable interaction for color picker
+        elements[id].style.cursor = enable ? 'pointer' : 'not-allowed';  // Change cursor to disabled style
+    });
 }
 
 // Function to disable the save button while generating the QR code
@@ -99,6 +101,7 @@ function save() {
     link.download = 'qrcode.png';
     link.click();
     link.delete;
+    clear()
 }
 
 // Function that display colors upon fill value selection
@@ -113,6 +116,28 @@ function colorFill(fillValue) {
         elements.ecLabel.style.display = 'flex'; // Display label of element
     }
 }
+
+function clear() {
+    elements.logo.value = "";
+    elements.style.value = "default";
+    elements.size.value = "default";
+    elements.link.value = '';
+    elements.color.value = "default";
+    elements.ccColor.value = defaultColors.default.cc
+    elements.ccColor.style.display = 'flex';
+    elements.ecColor.value = defaultColors.default.ec
+    elements.ecColor.style.display = 'flex';
+    elements.bcColor.value = defaultColors.default.bc
+    elements.ccLabel.value = 'center'
+    elements.ccLabel.style.display = 'flex';
+    elements.ecLabel.value = 'edge'
+    elements.ecLabel.style.display = 'flex';
+    elements.fileUploadRow.style.display ="none";
+    elements.fillDropdown.value = "gradient"
+    elements.fillBox.style.display ="none";
+    elements.qrCodeImage.src = "../static/logos/pomarina.png"
+}
+
 
 initialDisableSaveButton() // Run when scrypt is activated
 
@@ -147,29 +172,6 @@ document.getElementById('logo').addEventListener('change', function () {
 
 });
 
-// Function that display or hide color elements upon color value selection
-function displayFill() {
-    const isCustom = elements.color.value === 'custom'; // Check if color value is custom or not
-
-    elements.fillBox.style.display = isCustom ? 'flex' : 'none'; // Display or Hide element
-    toggleColorInputs(isCustom);
-    if (elements.color.value === 'none') {
-        elements.ecColor.style.display = 'none'; // Hide Edge Color element
-        elements.ccLabel.value = 'front'; // Change name of central element
-        elements.ecLabel.style.display = 'none'; // Hide edge label
-        elements.ecColor.style.display = 'none'; // Hide edge element
-    } else {
-        elements.ecColor.style.display = 'flex'; // Display Edge Color element
-        colorFill(elements.fillDropdown.value); // Display colors upon fill value selection
-    }
-}
-
-
-// Add an event listener to the color selection dropdown
-document.getElementById('color').addEventListener('change', function () {
-    updateColorInputs(elements.logo.value) // Update color inputs based on selected logo
-    displayFill() // Display or hide color elements upon color value selection
-});
 
 // Listen for the form change event
 document.getElementById('userForm').addEventListener('change', async function (event) {
@@ -209,7 +211,10 @@ document.getElementById('userForm').addEventListener('change', async function (e
         if (response.ok) {
             const result = await response.json();
             displayQRCode(result); // Display QR code
-            toggleColorInputs(elements.color.value === 'custom');
+            let currentColor = document.getElementById('color').value
+            // console.log(currentColor == 'custom');
+            toggleColorInputs(currentColor === 'custom');
+            // displayFill()
         } else {
             const errorMessage = await response.text();
             console.error('Error:', response.statusText, errorMessage);
@@ -228,5 +233,27 @@ document.getElementById('color-fill').addEventListener('change', function () {
     displayFill() // Display or hide color elements upon color value selection
 });
 
+// Add an event listener to the color selection dropdown
+document.getElementById('color').addEventListener('change', function () {
+    updateColorInputs(elements.logo.value) // Update color inputs based on selected logo
+    displayFill() // Display or hide color elements upon color value selection
+});
+
+// Function that display or hide color elements upon color value selection
+function displayFill() {
+    const isCustom = elements.color.value === 'custom'; // Check if color value is custom or not
+
+    elements.fillBox.style.display = isCustom ? 'flex' : 'none'; // Display or Hide element
+    if (elements.color.value === 'none') {
+        elements.ecColor.style.display = 'none'; // Hide Edge Color element
+        elements.ccLabel.value = 'front'; // Change name of central element
+        elements.ecLabel.style.display = 'none'; // Hide edge label
+        elements.ecColor.style.display = 'none'; // Hide edge element
+    } else {
+        elements.ecColor.style.display = 'flex'; // Display Edge Color element
+        colorFill(elements.fillDropdown.value); // Display colors upon fill value selection
+    }
+    toggleColorInputs(isCustom);
+}
 
 
