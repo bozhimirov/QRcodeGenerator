@@ -54,15 +54,6 @@ select {
     border-radius: 4px;
 }
 
-input[type="text"]:last-child,
-select {
-    flex: 1;
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-
 .image-container {
     display: flex;
     margin-top: 5px;
@@ -96,7 +87,7 @@ select {
 }
 
 .color-row label {
-    margin: auto auto 6px auto;
+    margin: 15px auto 15px auto;
 }
 
 #color-label {
@@ -147,7 +138,7 @@ button:hover {
 .inner-colors {
     display: flex;
     flex-direction: row;
-    margin: 5px auto auto auto;
+    margin: auto;
 }
 
 .color-fill {
@@ -165,4 +156,106 @@ button:hover {
 
 
 
-/*TODO media queries*/
+@media (max-width: 600px) {
+
+    .container {
+        padding: 10px;
+    }
+
+    .flex-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .link {
+        display: flex;
+        flex-direction: row;
+        margin-left: 50px;
+        margin-bottom: 10px;
+        margin-right: 50px;
+    }
+
+    .flex-item {
+        display: flex;
+        flex-direction: row;
+        margin-left: 50px;
+        margin-bottom: 10px;
+        margin-right: 50px;
+    }
+
+    .flex-item:last-child {
+    margin-right: 50px;
+    }
+
+    label {
+        margin: auto 10px;
+    }
+
+    label-link {
+        display: block;
+        margin: auto 10px;
+    }
+
+    .image-frame {
+        width: 100%;
+        height: auto;
+    }
+    .color-row {
+        width: 100%;
+    }
+    button {
+        width: 100%;
+    }
+
+    #fileUploadRow {
+        flex-direction: row;
+        align-items: stretch;
+        margin: auto 50px 10px;
+    }
+
+}
+
+
+@media (max-width: 530px) {
+    .image-container {
+        flex-direction: column;
+    }
+
+    .image-frame {
+        width: 320px;
+        margin: auto;
+    }
+
+    .inner-colors {
+        margin-bottom: 10px;
+    }
+
+}
+
+@media (max-width: 390px) and (min-width: 300px){
+    .flex-item {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+    .flex-item:last-child {
+        margin-right: 20px;
+    }
+
+    .link {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+    .image-frame {
+        width: 220px;
+        margin: auto;
+    }
+
+    #fileUploadRow {
+        margin: auto 20px 10px;
+    }
+}
+
+@media (max-width: 10px) {}
+
