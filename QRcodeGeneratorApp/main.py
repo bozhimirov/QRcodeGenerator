@@ -21,7 +21,7 @@ def manage():
         logo_path = None
 
         # Retrieve form data
-        logo = request.form.get('logo')
+        logo = request.form.get('logo', 'pomarina')  # Default to 'pomarina'
         link = request.form.get('link')
         style = request.form.get('style')
         size = request.form.get('size')
@@ -37,13 +37,17 @@ def manage():
             if logo_file and logo_file.filename:
                 logo_path = logo_file
         else:
-            if logo not in LOGO_PATHS.keys():
-                logo = 'pomarina'
-            logo_path = LOGO_PATHS[logo]
+            logo_path = LOGO_PATHS.get(logo, LOGO_PATHS['pomarina'])
 
         # Initialize the QR code generator
         qr_generator = QRCodeGenerator(
-            logo=logo_path, style=style, size=size, link=link, cc=cc, ec=ec, bc=bc
+            logo=logo_path,
+            style=style,
+            size=size,
+            link=link,
+            cc=cc,
+            ec=ec,
+            bc=bc
         )
 
         # Generate QR code image
@@ -61,9 +65,8 @@ def manage():
         img_base64 = base64.b64encode(img_io.getvalue()).decode('utf-8')
 
         return jsonify({'qr_code_image': img_base64})
-
     return render_template(INDEX)
 
 
-if __name__ == '__main__' and __package__ is None:
-    app.run(debug=True)
+if __name__ == '__main__':
+    app.run()
