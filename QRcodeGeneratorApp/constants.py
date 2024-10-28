@@ -1,14 +1,21 @@
 import os
 
-from qrcode.image.styles.moduledrawers import RoundedModuleDrawer, CircleModuleDrawer, GappedSquareModuleDrawer, \
-    SquareModuleDrawer, VerticalBarsDrawer, HorizontalBarsDrawer
+from qrcode.image.styles.moduledrawers import (
+    RoundedModuleDrawer,
+    CircleModuleDrawer,
+    GappedSquareModuleDrawer,
+    SquareModuleDrawer,
+    VerticalBarsDrawer,
+    HorizontalBarsDrawer
+)
 
 # Constants for logo paths
+BASE_LOGO_PATH = os.path.join('static', 'logos')
 LOGO_PATHS = {
-    'facebook': os.path.join('static', 'logos', 'fblogo.png'),
-    'instagram': os.path.join('static', 'logos', 'iglogo.png'),
+    'facebook': os.path.join(BASE_LOGO_PATH, 'fblogo.png'),
+    'instagram': os.path.join(BASE_LOGO_PATH, 'iglogo.png'),
     'none': None,
-    'pomarina': os.path.join('static', 'logos', 'pomarina.png'),
+    'pomarina': os.path.join(BASE_LOGO_PATH, 'pomarina.png'),
 }
 
 # Hex color definitions
@@ -36,6 +43,7 @@ STYLES = {
     'horizontal': HorizontalBarsDrawer(),
 }
 
+# Sizes for QR codes
 SIZES = {
     'default': 140,
     'big': 160,
