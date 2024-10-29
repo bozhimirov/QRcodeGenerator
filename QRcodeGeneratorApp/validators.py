@@ -1,48 +1,52 @@
+import re
+from typing import Dict
+
+
 # -- validate if the color is in hex format (regex is used ) --
 def validate_hex(hex_color: str) -> bool:
     """
-    This function validates if the color is in hex format.
+    This function validate if the provided color is in hex format.
 
     Parameters:
-        hex_color (str): the color that have to be checked.
+        hex_color (str): the color to check.
 
     Return:
-        bool: Return if the color is in hex format.
+        bool: True if the color is a valid hex format, False otherwise.
     """
-    import re
-    if hex_color is None:
-        return False  # or raise an error
+    if not hex_color:
+        return False  # Handle None or empty string case
 
+    # Compile the regex once for performance
     _hex_string = re.compile(r'^#?([a-fA-F0-9]{3}|[a-fA-F0-9]{6})$')
     return bool(_hex_string.match(hex_color))
 
 
 # -- validate if the style is in predefined values --
-def validate_style(style: str, styles: dict) -> bool:
+def validate_style(style: str, styles: Dict[str, any]) -> bool:
     """
-    This function validates if the style is in the predefined values of a provided dictionary.
+    This function validates if the style one of the predefined styles.
 
     Parameters:
-        style (str): the style that have to be checked.
-        styles (dict): the dictionary used for checking.
+        style (str): The style to check.
+        styles (Dict[str, any]): A dictionary of valid styles.
 
     Return:
-        bool: Return if the style is in the predefined values of a provided dictionary.
+        bool: Return True if the style is valid, False otherwise.
     """
-    return style in styles.keys()
+    return style in styles
 
 
 # -- validate if the size is in predefined values --
-def validate_size(size: str, sizes: dict) -> bool:
+def validate_size(size: str, sizes: Dict[str, any]) -> bool:
     """
-    This function validates if the size is in the predefined values of a provided dictionary.
+    This function validates if the size is one of the predefined sizes.
 
     Parameters:
-        size (str): the size that have to be checked.
-        sizes (dict): the dictionary used for checking.
+        size (str): The size to check.
+        sizes (Dict[str, any]): A dictionary of valid sizes.
 
     Return:
-        bool: Return if the size is in the predefined values of a provided dictionary.
+        bool: Return True if the size is valid, False otherwise.
     """
-    return size in sizes.keys()
+    return size in sizes
 
