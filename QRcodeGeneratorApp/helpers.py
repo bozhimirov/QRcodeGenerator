@@ -1,25 +1,31 @@
 from PIL.Image import Image
+import re
 
 
 # -- convert hex color to rgb color --
-def hex_to_rgb(color: str) -> tuple:
+def hex_to_rgb(color: str) -> tuple[int, int, int]:
     """
-    This function convert hex color to rgb color.
+    This function convert a hex color string to an RGB tuple.
 
     Parameters:
-        color (str): the color that have to be converted.
+        color (str): The hex color string (e.g., '#FFFFFF' or '#FFF').
 
     Return:
-        tuple: Return tuple with rgb color data.
+        tuple[int, int, int]: A tuple containing the RGB values.
+
+    Raises:
+        ValueError: If the color format is invalid.
     """
+
+    if not isinstance(color, str):
+        raise ValueError("Color must be a string.")
+
     value = color.lstrip('#')
-    len_value = len(value)
-    if len_value == 3:
+    if len(value) == 3:
         value = ''.join([(x+x) for x in value])
-        len_value = len(value)
-    if len_value == 6:
-        return tuple(int(value[i:i + len_value // 3], 16) for i in range(0, len_value, len_value // 3))
-    raise Exception('unwanted format')
+    if len(value) == 6:
+        return tuple(int(value[i:i + 2], 16) for i in range(0, 6, 2))
+    raise ValueError("Invalid hex color format.")
 
 
 # -- if the data provided is recognized as website link, it is formatted to be shorter--
@@ -29,15 +35,13 @@ def shorten_link(data: str) -> str:
     If facebook link is recognized, it is shortened additionally
 
     Parameters:
-        data (str): the data provided.
+        data (str): The data provided.
 
     Return:
         str: Return the data with the same or shorter length.
     """
-    import re
     replaced = re.sub(r"(?:https?://)?(?:www\.|mobile\.|touch\.|mbasic\.)?(/$)?", '', data, flags=re.IGNORECASE)
-    shorten = reformat_facebook_link(replaced)
-    return shorten
+    return reformat_facebook_link(replaced)
 
 
 # -- if the provided data is recognized as facebook link, it is formatted to be shorter, using only the id of the page--
@@ -46,18 +50,17 @@ def reformat_facebook_link(data: str) -> str:
     This function shorten facebook link for optimization, if it is recognizes as facebook link.
 
     Parameters:
-        data (str): the data provided.
+        data (str): The data provided.
 
     Return:
         str: Return the data with the same or shorter length.
     """
-    import re
     fb = re.search(r"^facebook|fb\.com", data, re.IGNORECASE)
     if fb:
         id_search = re.compile(r"\d{5,}")
-        matchResult = id_search.search(data)
-        if matchResult:
-            return f'fb.com/{matchResult.group()}'
+        match_result = id_search.search(data)
+        if match_result:
+            return f'fb.com/{match_result.group()}'
     return data
 
 
@@ -67,27 +70,25 @@ def convert_logo(logo_image: Image) -> Image:
     This function converts logo image into RGBA mode if needed.
 
     Parameters:
-        logo_image (Image): logo image that may need to be converted
+        logo_image (Image): The logo image.
 
     Return:
-        Image: Return the logo image in RGBA mode
+        Image: Return the logo image in RGBA mode.
     """
-    if logo_image.mode != 'RGBA':
-        return logo_image.convert('RGBA')
-    return logo_image.convert('RGBA')
+    return logo_image.convert('RGBA') if logo_image.mode != 'RGBA' else logo_image
 
 
 # -- calculate logo position according to image size--
-def calculate_logo_position(image: Image, logo: Image) -> tuple:
+def calculate_logo_position(image: Image, logo: Image) -> tuple[int, int]:
     """
-    This function calculate logo position according to image size.
+    This function calculate the position to center the logo on the QR code image.
 
     Parameters:
-        image (Image): image where the logo will be centered
-        logo (Image): logo image used for calculation
+        image (Image): The QR code image.
+        logo (Image): The logo image to be positioned.
 
     Return:
-        tuple: Return the position for the logo according to the size of the image as a tuple
+        tuple[int, int]: The (x, y) coordinates for placing the logo.
     """
     qr_width, qr_height = image.size
     logo_width, logo_height = logo.size
