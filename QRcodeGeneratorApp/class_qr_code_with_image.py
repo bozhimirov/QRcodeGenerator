@@ -83,6 +83,8 @@ class QRCodeGenerator:
         """
         if logo_image:
             base_width = self.size
+            while logo_image.size[0] > base_width or logo_image.size[1] > base_width:
+                logo_image = logo_image.resize((int(logo_image.size[0]*0.9), int(logo_image.size[1]*0.9)), Resampling.LANCZOS)
             if logo_image.size[0] >= logo_image.size[1]:
                 width_percent = (base_width / float(logo_image.size[0]))
                 h_size = int((float(logo_image.size[1]) * float(width_percent)))
@@ -109,8 +111,11 @@ class QRCodeGenerator:
                 return None
         else:
             logo_path = self.logo
-            logo_image = Image.open(logo_path)
-            return convert_logo(logo_image)
+            try:
+                logo_image = Image.open(logo_path)
+                return convert_logo(logo_image)
+            except FileNotFoundError:
+                return None
 
     def add_data(self) -> None:
         """
@@ -145,7 +150,6 @@ class QRCodeGenerator:
         The function directly modify one of the class attributes - QR code image.
         """
         logo_image = self._logo_resize(self._get_logo() if self._get_logo() else None)
-        print(logo_image)
         if logo_image:
             logo_position = calculate_logo_position(self.qr_image, logo_image)
             mask = logo_image.split()[3] if logo_image.mode == 'RGBA' else None
