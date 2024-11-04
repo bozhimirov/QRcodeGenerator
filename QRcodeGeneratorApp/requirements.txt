@@ -1,6 +1,7 @@
 
 Flask==3.0.3
-gunicorn==23.0.0
-pillow==11.0.0
+pillow==10.3.0
+pytest==8.2.2
 python-dotenv==1.0.1
-qrcode==8.0
+qrcode==7.4.2
+waitress==3.0.1
