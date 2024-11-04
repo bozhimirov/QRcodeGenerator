@@ -212,9 +212,7 @@ document.getElementById('userForm').addEventListener('change', async function (e
             const result = await response.json();
             displayQRCode(result); // Display QR code
             let currentColor = document.getElementById('color').value
-            // console.log(currentColor == 'custom');
             toggleColorInputs(currentColor === 'custom');
-            // displayFill()
         } else {
             const errorMessage = await response.text();
             console.error('Error:', response.statusText, errorMessage);
